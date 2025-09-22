@@ -1,0 +1,17 @@
+{
+  "name": "test-audio",
+  "version": "1.0.0",
+  "description": "Simple static HTML project",
+  "main": "index.html",
+  "scripts": {
+    "build": "mkdir -p dist && cp index.html dist/",
+    "start": "serve dist",
+    "dev": "serve ."
+  },
+  "keywords": ["html", "static"],
+  "author": "tathang2003",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.0"
+  }
+}

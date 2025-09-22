@@ -40,13 +40,15 @@ jobs:
             # Pull latest image
             docker pull ${{ secrets.DOCKER_USERNAME }}/test_audio:latest
             
-            # Stop and remove any containers using port 80
-            docker ps -q --filter "publish=80" | xargs -r docker stop
-            docker ps -aq --filter "publish=80" | xargs -r docker rm
+            # Stop ALL running containers first
+            docker stop $(docker ps -q) || true
+            docker rm $(docker ps -aq) || true
             
-            # Stop and remove specific container if exists
-            docker stop test_audio_container || true
-            docker rm test_audio_container || true
+            # Alternative: Kill any process using port 80
+            sudo fuser -k 80/tcp || true
+            
+            # Wait a moment for port to be freed
+            sleep 2
             
             # Clean up unused images to save space
             docker image prune -f

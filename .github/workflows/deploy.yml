@@ -27,7 +27,7 @@ jobs:
           context: .
           push: true
           platforms: linux/amd64
-          tags: ${{ secrets.DOCKER_USERNAME }}/audio_fe:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/test_audio:latest
 
       - name: Start ssh-agent
         uses: webfactory/ssh-agent@v0.7.0
@@ -37,8 +37,8 @@ jobs:
       - name: Deploy to Vultr
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.VULTR_USER }}@${{ secrets.VULTR_HOST }} << 'EOF'
-            docker pull ${{ secrets.DOCKER_USERNAME }}/audio_fe:latest
-            docker stop audio_fe_container || true
-            docker rm audio_fe_container || true
-            docker run -d -p 80:80 --name audio_fe_container ${{ secrets.DOCKER_USERNAME }}/audio_fe:latest
+            docker pull ${{ secrets.DOCKER_USERNAME }}/test_audio:latest
+            docker stop test_audio_container || true
+            docker rm test_audio_container || true
+            docker run -d -p 80:80 --name test_audio_container ${{ secrets.DOCKER_USERNAME }}/test_audio:latest
           EOF
